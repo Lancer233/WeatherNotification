@@ -33,7 +33,8 @@ def get_weather_and_push():
     output_string += "tomorrow temperature is " + str(tomorrow_min_temp) +  " "+str(tomorrow_avg_temp) + " "+str(tomorrow_max_temp)
     output_string += "precipitation is " + str(tomorrow_avg_rain)
     output_string += " send from HG's server"
-    pb = Pushbullet("o.9lJnDiHR3BZGUh0aV33Jc8NqvTn5W0nX")
+    token = open('token').read().strip()
+    pb = Pushbullet(token)
 
     push = pb.push_note(output_string, output_string)
 

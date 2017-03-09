@@ -1,8 +1,11 @@
 from pushbullet import Pushbullet
+from apscheduler.schedulers.blocking import BlockingScheduler
+from datetime import datetime
 import requests
 import json
 
-def main():
+
+def get_weather_and_push():
     r = requests.get('http://api.caiyunapp.com/v2/TAkhjf8d1nlSlspN/121.483,31.2333/forecast')
     json_data = json.loads(r.text)
     today_min_temp = json_data["result"]["daily"]["temperature"][0]['min']
@@ -16,6 +19,11 @@ def main():
     diff_avg_temp = tomorrow_avg_temp - today_avg_temp
     if abs(diff_avg_temp) > 2 or abs(diff_max_temp) > 2 or abs(diff_min_temp) >2:
         output_string = "Warning!!! "
+    if diff_avg_temp > 2:
+        output_string += "temperature higher "
+    else:
+        output_string += "temperature lower "
+
     tomorrow_avg_rain = json_data["result"]["daily"]["precipitation"][0]["avg"];
     if tomorrow_avg_rain >= 0.15:
         output_string += "Heavy Raining "
@@ -23,12 +31,17 @@ def main():
         output_string += "Raining "
     
     output_string += "tomorrow temperature is " + str(tomorrow_min_temp) +  " "+str(tomorrow_avg_temp) + " "+str(tomorrow_max_temp)
-    
+    output_string += "precipitation is " + str(tomorrow_avg_rain)
     output_string += " send from HG's server"
-
     pb = Pushbullet("o.9lJnDiHR3BZGUh0aV33Jc8NqvTn5W0nX")
 
     push = pb.push_note(output_string, output_string)
 
+def my_timer():
+    scheduler = BlockingScheduler()
+    scheduler.add_job(get_weather_and_push, 'cron', day_of_week='1-7', hour=21, minute=30)
+    print("scheduler start")
+    scheduler.start()
+
 if __name__ == "__main__":
-    main()
+    my_timer();

@@ -44,4 +44,7 @@ def my_timer():
     scheduler.start()
 
 if __name__ == "__main__":
+    # push at the program begin, as debug
+    get_weather_and_push();    
     my_timer();
+

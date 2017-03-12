@@ -17,6 +17,7 @@ def get_weather_and_push():
     diff_min_temp = tomorrow_min_temp - today_min_temp
     diff_max_temp = tomorrow_max_temp - today_max_temp
     diff_avg_temp = tomorrow_avg_temp - today_avg_temp
+    output_string = ""
     if abs(diff_avg_temp) > 2 or abs(diff_max_temp) > 2 or abs(diff_min_temp) >2:
         output_string = "Warning!!! "
     if diff_avg_temp > 2:

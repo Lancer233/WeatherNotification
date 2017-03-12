@@ -30,9 +30,10 @@ def get_weather_and_push():
     elif tomorrow_avg_rain >= 0.05:
         output_string += "Raining "
     
-    output_string += "tomorrow temperature is " + str(tomorrow_min_temp) +  " "+str(tomorrow_avg_temp) + " "+str(tomorrow_max_temp)
-    output_string += "precipitation is " + str(tomorrow_avg_rain)
-    output_string += " send from HG's server"
+    output_string += "Today temperature is " + str(today_min_temp) +  " "+str(today_avg_temp) + " "+str(today_max_temp)+" "
+    output_string += "Tomorrow temperature is " + str(tomorrow_min_temp) +  " "+str(tomorrow_avg_temp) + " "+str(tomorrow_max_temp)+" "
+    output_string += "Precipitation is " + str(tomorrow_avg_rain)
+    output_string += " Send from HG's server"
     token = open('token').read().strip()
     pb = Pushbullet(token)
 
@@ -40,7 +41,7 @@ def get_weather_and_push():
 
 def my_timer():
     scheduler = BlockingScheduler()
-    scheduler.add_job(get_weather_and_push, 'cron', day_of_week='1-7', hour=21, minute=30)
+    scheduler.add_job(get_weather_and_push, 'cron', day_of_week='1-7', hour=13, minute=30)
     print("scheduler start")
     scheduler.start()
 

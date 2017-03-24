@@ -6,7 +6,10 @@ import json
 
 
 def get_weather_and_push():
-    r = requests.get('http://api.caiyunapp.com/v2/TAkhjf8d1nlSlspN/121.483,31.2333/forecast')
+    token_pb = open('pb_token').readline().strip()
+    token_weather = open('weather_token').readline().strip()
+
+    r = requests.get('http://api.caiyunapp.com/v2/'+token_weather+'/121.483,31.2333/forecast')
     json_data = json.loads(r.text)
     today_min_temp = json_data["result"]["daily"]["temperature"][0]['min']
     today_max_temp = json_data["result"]["daily"]["temperature"][0]['max']
@@ -35,7 +38,6 @@ def get_weather_and_push():
     output_string += "Tomorrow temperature is " + str(tomorrow_min_temp) +  " "+str(tomorrow_avg_temp) + " "+str(tomorrow_max_temp)+" "
     output_string += "Precipitation is " + str(tomorrow_avg_rain)
     output_string += " Send from HG's server"
-    token = open('token').read().strip()
     pb = Pushbullet(token)
 
     push = pb.push_note(output_string, output_string)

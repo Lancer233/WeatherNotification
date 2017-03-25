@@ -44,7 +44,7 @@ def get_weather_and_push():
 
 def my_timer():
     scheduler = BlockingScheduler()
-    scheduler.add_job(get_weather_and_push, 'cron', day_of_week='1-7', hour=13, minute=30)
+    scheduler.add_job(get_weather_and_push, 'cron', day_of_week='1-7', hour=21, minute=30)
     print("scheduler start")
     scheduler.start()
 
